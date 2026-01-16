@@ -1,0 +1,17 @@
+{
+    "name": "elm-g25",
+    "version": "1.0.0",
+    "description": "",
+    "license": "ISC",
+    "author": "",
+    "type": "commonjs",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "elm make src/Main.elm --output=main.js"
+    },
+    "dependencies": {
+        "elm": "latest",
+        "elm-format": "^0.8.8"
+    }
+}

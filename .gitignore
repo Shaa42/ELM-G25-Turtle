@@ -1,0 +1,12 @@
+# Ignore dependencies and Elm build artifacts
+node_modules/
+elm-stuff/
+
+# Elm REPL temp files
+elm-repl-temp-*
+
+# Caches and bundler artifacts
+.cache/
+
+# Environment files
+.env

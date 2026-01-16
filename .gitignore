@@ -10,3 +10,6 @@ elm-repl-temp-*
 
 # Environment files
 .env
+
+# js file from elm build
+main.js

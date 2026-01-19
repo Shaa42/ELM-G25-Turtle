@@ -26,12 +26,16 @@ main =
 
 
 type alias Model =
-    { inputValue : String }
+    { draftInput : String
+    , committedInput : String
+    }
 
 
 init : Model
 init =
-    { inputValue = "" }
+    { draftInput = "" 
+    , committedInput = ""
+    }
 
 
 
@@ -39,16 +43,18 @@ init =
 
 
 type Msg
-    = UpdateInput String
+    = UpdateDraft String
+    | CommitInput 
+
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateInput newValue ->
-            { model | inputValue = newValue }
-
-
+        UpdateDraft txt ->
+            { model| draftInput = txt }
+        CommitInput ->
+            { model | committedInput = model.draftInput }
 
 -- VIEW
 
@@ -56,18 +62,21 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.class "box" ]
-        [ input
-            [ placeholder "Text place holder"
-            , value model.inputValue
-            , onInput UpdateInput
-            , Html.Attributes.id "text-input"
-            ]
-            []
-        , p [] [ Html.text ("Input : " ++ model.inputValue) ]
-        , svg
-            [ viewBox "0 0 500 500"
-            , width "500"
-            , height "500"
-            ]
-            []
+            [ input
+                [ placeholder "Text place holder"
+                , value model.draftInput
+                , Html.Events.onInput UpdateDraft
+                , Html.Attributes.id "text-input"
+                ]
+                []
+                , button [ onClick CommitInput ] [ Html.text "Draw" ]
+                , p [] [ Html.text ("Input : " ++ model.committedInput) ]
+                ,svg
+        [ width "90%", height "70%", viewBox "-200 -200 400 400" ]
+        [ rect
+                [ x "-200", y "-200", width "400", height "400"
+                , fill "none", stroke "black", strokeWidth "1"
+                ]
+                []
+        ]
         ]

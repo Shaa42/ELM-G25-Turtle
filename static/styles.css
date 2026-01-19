@@ -8,16 +8,26 @@
     grid-gap: 30px;
 }
 
-/*#elm-node {
-    width: 100%;
-    max-width: 500px;
-    border: 1px solid #525252;
-    border-radius: 5px;
-}*/
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;   
+    height: 100%;
+}
+
+.container input, .container button {
+    margin: 10px;
+    font-size: 1rem;
+    padding: 5px 10px;
+}
 
 svg {
-    width: 100%;
-    max-width: 500px;
-    border: 1px solid #525252;
-    border-radius: 5px;
+    border: 1px solid #ccc;
 }

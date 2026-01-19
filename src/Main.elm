@@ -2,8 +2,10 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (Html, button, div, input, p, text)
-import Html.Attributes exposing (id, placeholder, value)
+import Html.Attributes exposing (class, id, placeholder, value)
 import Html.Events exposing (onClick, onInput)
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
 
 
 
@@ -38,7 +40,6 @@ init =
 
 type Msg
     = UpdateInput String
-    | DrawButtonClicked
 
 
 update : Msg -> Model -> Model
@@ -47,10 +48,6 @@ update msg model =
         UpdateInput newValue ->
             { model | inputValue = newValue }
 
-        DrawButtonClicked ->
-            Debug.log model.inputValue
-                model
-
 
 
 -- VIEW
@@ -58,17 +55,19 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ Html.Attributes.class "box" ]
         [ input
             [ placeholder "Text place holder"
             , value model.inputValue
             , onInput UpdateInput
-            , id "text-input"
+            , Html.Attributes.id "text-input"
             ]
             []
-        , button
-            [ onClick DrawButtonClicked
+        , p [] [ Html.text ("Input : " ++ model.inputValue) ]
+        , svg
+            [ viewBox "0 0 500 500"
+            , width "500"
+            , height "500"
             ]
-            [ text "Draw" ]
-        , p [] [ text ("Vous avez écrit: " ++ model.inputValue) ]
+            []
         ]

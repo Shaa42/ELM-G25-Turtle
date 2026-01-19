@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Main</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <div class="box">
+            <h1>TC Turtle</h1>
+        </div>
+
+        <div id="elm-node"></div>
+
+        <!-- Elm -->
+        <script>
+            var app = Elm.Main.init({
+                node: document.getElementById("elm-node"),
+            });
+        </script>
+    </body>
+</html>

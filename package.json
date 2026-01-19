@@ -8,7 +8,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "elm make src/Main.elm --output=main.js"
+        "build": "elm make src/Main.elm --output=static/main.js"
     },
     "dependencies": {
         "elm": "latest",

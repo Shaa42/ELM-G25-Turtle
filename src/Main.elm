@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, input, p, text)
+import Html exposing (Html, button, div, h1, input, p, text)
 import Html.Attributes exposing (class, id, placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Svg exposing (..)
@@ -62,7 +62,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.class "container" ]
-            [ input
+        [ h1 [] [ Html.text "TC Turtle" ]
+        , input
                 [ placeholder "Text place holder"
                 , value model.draftInput
                 , Html.Events.onInput UpdateDraft

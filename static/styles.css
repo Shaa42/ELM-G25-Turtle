@@ -1,33 +1,39 @@
-.box {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 500px;
-    margin: auto;
-    padding: 1rem;
-    display: grid;
-    grid-gap: 30px;
-}
-
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#text-input {
+    margin-bottom: 20px;   
+    padding: 10px;         
+    width: 250px;          
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center; 
-    align-items: center;   
-    height: 100%;
+    align-items: center;  
+    margin-top: 20px;
+    box-sizing: border-box;
+    padding: 1rem;
+
 }
 
-.container input, .container button {
-    margin: 10px;
-    font-size: 1rem;
-    padding: 5px 10px;
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #999;
+    border-radius: 4px;
+    margin-bottom: 20px;   /* Adds space between the button and the text display below it */
 }
 
 svg {
-    border: 1px solid #ccc;
+    border: 1px solid black;
+    width: 100%;       
+    height: 70vh;   /* fills 70% of viewport height */
 }

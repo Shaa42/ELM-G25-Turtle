@@ -61,7 +61,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ Html.Attributes.class "box" ]
+    div [ Html.Attributes.class "container" ]
             [ input
                 [ placeholder "Text place holder"
                 , value model.draftInput
@@ -72,9 +72,9 @@ view model =
                 , button [ onClick CommitInput ] [ Html.text "Draw" ]
                 , p [] [ Html.text ("Input : " ++ model.committedInput) ]
                 ,svg
-        [ width "90%", height "70%", viewBox "-200 -200 400 400" ]
+        [ width "100%", height "100%", viewBox "-150 -100 300 200" ]
         [ rect
-                [ x "-200", y "-200", width "400", height "400"
+                [ x "-150", y "-100", width "300", height "200"
                 , fill "none", stroke "black", strokeWidth "1"
                 ]
                 []

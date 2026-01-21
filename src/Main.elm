@@ -55,7 +55,6 @@ update msg model =
     case msg of
         UpdateDraft txt ->
             { model | draftInput = txt }
-
         CommitInput ->
             { model | committedInput = model.draftInput }
 

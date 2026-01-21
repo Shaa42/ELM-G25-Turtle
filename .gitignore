@@ -13,3 +13,6 @@ elm-repl-temp-*
 
 # js file from elm build
 main.js
+
+# other files
+div/

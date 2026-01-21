@@ -28,6 +28,7 @@ main =
 type alias Model =
     { draftInput : String
     , committedInput : String
+    , eraseDrawing : String
     }
 
 
@@ -35,6 +36,7 @@ init : Model
 init =
     { draftInput = "" 
     , committedInput = ""
+    , eraseDrawing = ""
     }
 
 
@@ -45,6 +47,7 @@ init =
 type Msg
     = UpdateDraft String
     | CommitInput 
+    | ClearDrawing
 
 
 
@@ -55,22 +58,26 @@ update msg model =
             { model| draftInput = txt }
         CommitInput ->
             { model | committedInput = model.draftInput }
-
+        ClearDrawing ->
+            { model | committedInput = "", draftInput = ""}
 -- VIEW
 
 
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.class "container" ]
-        [ h1 [] [ Html.text "TC Turtle" ]
+        [ h1 [] [ Html.text "🐢TC Turtle🐢" ]
         , input
-                [ placeholder "Text place holder"
+                [ placeholder "Enter your instructions senpai UwU"
                 , value model.draftInput
                 , Html.Events.onInput UpdateDraft
                 , Html.Attributes.id "text-input"
                 ]
                 []
-                , button [ onClick CommitInput ] [ Html.text "Draw" ]
+                , div [ Html.Attributes.class "row" ]
+                    [ button [ onClick CommitInput ] [ Html.text "Draw" ]
+                    , button [ onClick ClearDrawing ] [ Html.text "Erase" ]
+                ]
                 , p [] [ Html.text ("Input : " ++ model.committedInput) ]
                 ,svg
         [ width "100%", height "100%", viewBox "-150 -100 300 200" ]
@@ -79,5 +86,14 @@ view model =
                 , fill "none", stroke "black", strokeWidth "1"
                 ]
                 []
+                
+        , if model.committedInput /= "" then
+                line 
+                        [ x1 "0", y1 "0", x2 "50", y2 "50", stroke "black", strokeWidth "2" ] 
+                        []
+        else
+                Html.text ""
         ]
         ]
+        
+        

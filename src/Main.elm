@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, input, p, text)
+import Html exposing (Html, button, div, h1, input, p, text)
 import Html.Attributes exposing (class, id, placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Svg exposing (..)
@@ -26,12 +26,16 @@ main =
 
 
 type alias Model =
-    { inputValue : String }
+    { draftInput : String
+    , committedInput : String
+    }
 
 
 init : Model
 init =
-    { inputValue = "" }
+    { draftInput = "" 
+    , committedInput = ""
+    }
 
 
 
@@ -39,35 +43,41 @@ init =
 
 
 type Msg
-    = UpdateInput String
+    = UpdateDraft String
+    | CommitInput 
+
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateInput newValue ->
-            { model | inputValue = newValue }
-
-
+        UpdateDraft txt ->
+            { model | draftInput = txt }
+        CommitInput ->
+            { model | committedInput = model.draftInput }
 
 -- VIEW
 
 
 view : Model -> Html Msg
 view model =
-    div [ Html.Attributes.class "box" ]
-        [ input
-            [ placeholder "Text place holder"
-            , value model.inputValue
-            , onInput UpdateInput
-            , Html.Attributes.id "text-input"
-            ]
-            []
-        , p [] [ Html.text ("Input : " ++ model.inputValue) ]
-        , svg
-            [ viewBox "0 0 500 500"
-            , width "500"
-            , height "500"
-            ]
-            []
+    div [ Html.Attributes.class "container" ]
+        [ h1 [] [ Html.text "TC Turtle" ]
+        , input
+                [ placeholder "Text place holder"
+                , value model.draftInput
+                , Html.Events.onInput UpdateDraft
+                , Html.Attributes.id "text-input"
+                ]
+                []
+                , button [ onClick CommitInput ] [ Html.text "Draw" ]
+                , p [] [ Html.text ("Input : " ++ model.committedInput) ]
+                ,svg
+        [ width "100%", height "100%", viewBox "-150 -100 300 200" ]
+        [ rect
+                [ x "-150", y "-100", width "300", height "200"
+                , fill "none", stroke "black", strokeWidth "1"
+                ]
+                []
+        ]
         ]

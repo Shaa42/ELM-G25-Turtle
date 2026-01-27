@@ -1,12 +1,15 @@
 module Main exposing (..)
 
+-- Import Turtle module
+
 import Browser
-import Html exposing (Html, button, div, h1, header, input, label, p, text)
-import Html.Attributes exposing (class, id, placeholder, value)
-import Html.Events exposing (onClick, onInput)
-import Parser exposing (..)
+import Html exposing (Html, button, div, h1, input)
+import Html.Attributes exposing (placeholder, value)
+import Html.Events exposing (onClick)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
+import Turtle.Core exposing (Line, Turtle, execCmds, initTurtle)
+import Turtle.Parser exposing (parseCommands)
 
 
 
@@ -80,189 +83,7 @@ update msg model =
 
 
 
--- PARSER
-
-
-numberParser : Parser Float
-numberParser =
-    Parser.oneOf
-        [ Parser.float
-        , Parser.int |> Parser.map toFloat
-        ]
-
-
-forwardParser : Parser Command
-forwardParser =
-    Parser.succeed Forward
-        |. Parser.keyword "Forward"
-        |. Parser.spaces
-        |= numberParser
-
-
-rightParser : Parser Command
-rightParser =
-    Parser.succeed Right
-        |. Parser.keyword "Right"
-        |. Parser.spaces
-        |= numberParser
-
-
-leftParser : Parser Command
-leftParser =
-    Parser.succeed Left
-        |. Parser.keyword "Left"
-        |. Parser.spaces
-        |= numberParser
-
-
-commandParser : Parser Command
-commandParser =
-    Parser.oneOf
-        [ Parser.lazy (\_ -> repeatParser) 
-        , forwardParser
-        , rightParser
-        , leftParser
-        ]
-
-repeatParser : Parser Command
-repeatParser =
-    Parser.succeed Repeat
-        |. Parser.keyword "Repeat"
-        |. Parser.spaces
-        |= Parser.int
-        |. Parser.spaces
-        |. Parser.symbol "["
-        |. Parser.spaces
-        |= Parser.sequence
-            { start = ""
-            , separator = ","
-            , end = "]"
-            , spaces = Parser.spaces
-            , item = Parser.lazy (\_ -> commandParser)
-            , trailing = Parser.Forbidden
-            }
-
-commandsParser : Parser (List Command)
-commandsParser =
-    Parser.succeed identity
-        |. Parser.symbol "["
-        |. Parser.spaces
-        |= Parser.sequence
-            { start = ""
-            , separator = ","
-            , end = "]"
-            , spaces = Parser.spaces
-            , item = commandParser
-            , trailing = Parser.Forbidden
-            }
-
-
-parseCommands : String -> Result String (List Command)
-parseCommands input =
-    case Parser.run commandsParser input of
-        Ok commands ->
-            Ok commands
-
-        Err _ ->
-            Err "Invalid syntax! Use format: [ Forward 50, Right 90 ]"
-
-
-
--- TURTLE
-
-
-type Command
-    = Forward Float
-    | Right Float
-    | Left Float
-    | Repeat Int (List Command)
-
-
-type alias Turtle =
-    { x : Float
-    , y : Float
-    , angle : Float
-    }
-
-
-initTurtle : Turtle
-initTurtle =
-    { x = 0
-    , y = 0
-    , angle = 0
-    }
-
-
-forward : Float -> Turtle -> ( Turtle, Line )
-forward length turtle =
-    let
-        newx =
-            turtle.x + length * cos (degrees turtle.angle)
-
-        newy =
-            turtle.y + length * sin (degrees turtle.angle)
-
-        line =
-            { x1 = turtle.x
-            , x2 = newx
-            , y1 = turtle.y
-            , y2 = newy
-            }
-
-        newTurtle =
-            { turtle | x = newx, y = newy }
-    in
-    ( newTurtle, line )
-
-
-execCmd : Command -> ( Turtle, List Line ) -> ( Turtle, List Line )
-execCmd cmd ( turtle, lines ) =
-    case cmd of
-        Forward distance ->
-            let
-                ( newTurtle, newLine ) =
-                    forward distance turtle
-            in
-            ( newTurtle, newLine :: lines )
-
-        Right angle ->
-            let
-                newTurtle =
-                    { turtle | angle = turtle.angle + angle }
-            in
-            ( newTurtle, lines )
-
-        Left angle ->
-            let
-                newTurtle =
-                    { turtle | angle = turtle.angle - angle }
-            in
-            ( newTurtle, lines )
-
-        Repeat n commands ->
-            let
-                repeatCommands = 
-                    List.repeat n commands
-                        |> List.concat
-            in
-            List.foldl execCmd ( turtle, lines ) repeatCommands
-
-
-execCmds : List Command -> Turtle -> List Line -> ( Turtle, List Line )
-execCmds commands turtle lines =
-    List.foldl execCmd ( turtle, lines ) commands
-
-
-
 -- SVG FUNCTIONS
-
-
-type alias Line =
-    { x1 : Float
-    , x2 : Float
-    , y1 : Float
-    , y2 : Float
-    }
 
 
 renderLine : Line -> Svg msg
@@ -358,7 +179,7 @@ view model =
                         Svg.g [] (List.map renderLine model.lines)
 
                       else
-                        Html.text ""
+                        Svg.g [] []
                     ]
                 ]
             ]

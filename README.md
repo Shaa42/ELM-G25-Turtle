@@ -61,8 +61,8 @@ Repeat n [...] : Répète n fois l'instruction entre crochets
 
 ```sh
 ├── src/
-|   ├── Turtle/
-|       ├── Core.elm   # Definie les types et fonctions d'affichage
+│   ├── Turtle/
+│       ├── Core.elm   # Definie les types et fonctions d'affichage
 │       └── Parser.elm # Fonction pour le parsing de l'utilisateur
 │   └── Main.elm       # Script principal
 ├── static/
